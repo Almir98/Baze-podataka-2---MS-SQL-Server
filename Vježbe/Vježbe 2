@@ -1,0 +1,26 @@
+USE prihodi
+SELECT RedovniPrihodiID,(Bruto-Neto) AS Doprinos
+FROM RedovniPrihodi
+WHERE (Bruto-Neto)>=300 AND (Bruto-Neto)<=400
+ORDER BY Doprinos
+
+--8--
+
+SELECT VanredniPrihodiID,IznosVanrednogPrihoda
+FROM VanredniPrihodi
+WHERE BrojDanaRazlike>3
+
+--9--
+
+SELECT PolisaID,VrijednostPolise,IznosRate,DatumIzdavanja
+FROM PolisaOsiguranja
+WHERE DatumIzdavanja>='10/1/2018' and DatumIzdavanja<='12/31/2018'
+ORDER BY DatumIzdavanja
+
+--10--
+
+SELECT RedovniPrihodiID,Zdravstveno+Penzijsko AS Doprinosi
+FROM RedovniPrihodi
+WHERE (Zdravstveno+Penzijsko)>=750 AND (Zdravstveno+Penzijsko)<=1000 AND (Kvartal=3 OR Kvartal=4)
+ORDER BY Doprinosi
+
