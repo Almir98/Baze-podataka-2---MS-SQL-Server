@@ -1,0 +1,41 @@
+USE prihodi
+ 
+ --1--
+
+ SELECT PoslodavacID,Naziv
+ FROM Poslodavac
+ WHERE Naziv LIKE '[B]%'
+
+ --2--
+
+ SELECT PoslodavacID,Naziv
+ FROM Poslodavac
+ WHERE Naziv LIKE '[B]_[b]%'
+
+ --3--
+
+SELECT Drzava
+FROM Drzava
+WHERE Drzava LIKE '%[a]'
+
+--4--
+
+SELECT OsobaID,PrezIme,Ime
+FROM Osoba
+WHERE Ime LIKE '[A]%' AND PrezIme LIKE '[A]%'
+ORDER BY Ime,PrezIme
+
+--5--
+
+
+--8--
+
+SELECT OsobaID,PrezIme,Ime,Adresa
+FROM Osoba
+WHERE Adresa LIKE '[1-9]%'
+
+--9--
+
+SELECT OsobaID,PrezIme,Ime,Adresa
+FROM Osoba
+WHERE Adresa LIKE '[^1-9]%'				-- da ne pocinju sa ^ a % da sve nakon da je moguce sve ostalo
