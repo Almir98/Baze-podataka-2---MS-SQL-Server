@@ -1,0 +1,60 @@
+CREATE DATABASE test
+
+-- kreirati tabelu sa ovim atributima 
+CREATE TABLE JoinTabela4
+(
+NarudzbaID int NOT NULL CONSTRAINT PK_NarudzbaID PRIMARY KEY(NarudzbaID),
+NazivKompanije nvarchar(50) NULL,
+KupacID varchar(5) NULL,
+UposlenikID int NULL,
+Grad varchar(20) NULL,
+Drzava varchar(4) NULL
+)
+
+USE test
+GO
+
+--9 
+
+INSERT INTO JoinTabela4
+SELECT o.OrderID,c.CompanyName,o.CustomerID,e.EmployeeID,e.City,e.Country
+FROM NORTHWND.dbo.Orders as o INNER JOIN NORTHWND.dbo.Customers as c 
+on c.CustomerID=o.CustomerID 
+INNER JOIN NORTHWND.dbo.Employees as e
+ON o.EmployeeID=e.EmployeeID
+
+
+ CREATE TABLE JoinTabela5
+ (
+ PrimarniKljuc int NOT NULL CONSTRAINT PK_PrimarniKljuc PRIMARY KEY(PrimarniKljuc) IDENTITY(1,1),
+ NarudzbaID int NOT NULL,
+ JedCjelina DECIMAL(8,2) NOT NULL,
+ Kolicina int NOT NULL,
+ NazivProizvoda nvarchar(50) NULL,
+ DobavljacID int NOT NULL,
+ Ukupno DECIMAL(8,2) NULL,		-- 8 karaktera,2 decimalna mjesta
+ CONSTRAINT NarudzbaID FOREIGN KEY(NarudzbaID) REFERENCES JoinTabela4(NarudzbaID)
+ )
+
+ --11
+ INSERT INTO JoinTabela5
+ SELECT o.OrderID,od.UnitPrice,od.Quantity,p.ProductName,p.SupplierID,od.UnitPrice*od.Quantity as ukupno
+ FROM NORTHWND.dbo.[Order Details] as od INNER JOIN NORTHWND.dbo.Orders as o
+ ON od.OrderID=o.OrderID
+ INNER JOIN NORTHWND.dbo.Products as p
+ on od.ProductID=p.ProductID
+
+ --12
+
+ SELECT j.NazivKompanije,j.NarudzbaID,SUM(jt.Ukupno)
+ FROM JoinTabela4 as j INNER JOIN JoinTabela5 AS jt
+ ON j.NarudzbaID=jt.NarudzbaID
+ GROUP BY j.NazivKompanije,j.NarudzbaID
+
+ --13
+ select j.NazivKompanije,j.NarudzbaID,count(jt.NarudzbaID) as 'Ukupan broj'
+ FROM JoinTabela4 as j INNER JOIN JoinTabela5 AS jt
+ on j.NarudzbaID=jt.NarudzbaID
+ WHERE jt.Kolicina>10
+ GROUP BY j.NazivKompanije,j.NarudzbaID
+ HAVING count(jt.NarudzbaID)>3
