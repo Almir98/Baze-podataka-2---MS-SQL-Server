@@ -1,0 +1,67 @@
+CREATE DATABASE test2
+USE tes2
+
+
+CREATE TABLE Narudzbe(
+NarudzbaID int CONSTRAINT PK_NarudzbaID PRIMARY KEY(NarudzbaID),
+NaruciteljID char(5) NULL,
+ZaposlenikID int NULL,
+DatumNarudzbe date NULL,
+KrajnjiDatumIsporuke date NULL,
+DatumIsporuke date NULL,
+IsporuciteljID int NULL,
+CijenaPrevoza money NULL,
+NazivNarucitelja nvarchar(40) NULL,
+AdresaNarucitelja nvarchar(60) NULL,
+GradNarucitelja nvarchar(15) NULL,
+RegijaNarucitelja nvarchar(15) NULL,
+PostBrojNarucitelja nvarchar(10) NULL,
+DrzavaNarucitelja nvarchar(15) NULL
+)
+
+INSERT INTO Narudzbe
+SELECT O.OrderID,O.CustomerID,O.EmployeeID,LEFT(O.OrderDate,11),LEFT(O.RequiredDate,11),LEFT(O.ShippedDate,11),
+		O.ShipVia,O.Freight,O.ShipName,O.ShipAddress,O.ShipCity,ISNULL(O.ShipRegion,'BH'),O.ShipPostalCode,O.ShipCountry,NULL
+FROM NORTHWND.dbo.Orders AS O
+WHERE O.Freight<100 AND O.ShipAddress LIKE '[ 0-9][ 0-9][^0-9]%'
+
+ALTER TABLE Narudzbe
+ADD Broj_u_Ulici nvarchar(2) NULL
+
+
+SELECT AdresaNarucitelja
+FROM Narudzbe
+
+
+UPDATE Narudzbe
+SET Broj_u_Ulici=LEFT(AdresaNarucitelja,2),AdresaNarucitelja=SUBSTRING(AdresaNarucitelja,3,LEN(AdresaNarucitelja))
+WHERE Broj_u_Ulici IS NULL
+
+SELECT SUBSTRING(ShipName,1,CHARINDEX(' ',ShipName)) AS Ime
+FROM NORTHWND.dbo.Orders 
+WHERE CHARINDEX(' ',ShipName)!=0
+
+
+ALTER TABLE Narudzbe
+ADD Lozinka nvarchar(40) NULL
+
+UPDATE Narudzbe
+SET Lozinka=REVERSE(CONCAT(HireDate,SUBSTRING(LoginID,CHARINDEX('\',LoginID)+1,LEN(LoginID))))
+FROM AdventureWorks2014.HumanResources.Employee
+WHERE Lozinka IS NULL 
+
+SELECT *
+FROM AdventureWorks2014.HumanResources.Employee AS E
+
+SELECT *
+FROM Narudzbe
+
+
+SELECT COUNT(*)
+FROM NORTHWND.dbo.Orders
+WHERE CHARINDEX(' ',ShipName) = 0
+
+
+CREATE SCHEMA test2
+GO
+
