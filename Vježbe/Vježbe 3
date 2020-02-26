@@ -1,0 +1,67 @@
+CREATE DATABASE Agregatne
+
+USE Agregatne
+GO
+
+CREATE SCHEMA Funckije
+
+CREATE TABLE Funckije.Odjel
+(
+OdjelID SMALLINT NOT NULL CONSTRAINT PK_OdjelID
+PRIMARY KEY(OdjelID) IDENTITY(1,1),
+Naziv NVARCHAR(50) NOT NULL,
+NazivSektora NVARCHAR(50) NOT NULL,
+DatumKreiranje DATE NOT NULL
+)
+
+
+--test--
+
+INSERT INTO Funckije.Odjel				-- import u koju tabelu
+SELECT Name,GroupName,LEFT(ModifiedDate,11)		-- koje podatke
+FROM AdventureWorks2014.HumanResources.Department			--iz cega
+WHERE GroupName LIKE 'Sales and Marketing' OR GroupName LIKE 'Research and Development' 
+ORDER BY GroupName
+
+
+DELETE FROM Funckije.Odjel 
+
+INSERT INTO Funckije.Odjel				-- import u koju tabelu
+SELECT Name,GroupName,LEFT(ModifiedDate,11)		-- koje podatke
+FROM AdventureWorks2014.HumanResources.Department			--iz cega
+WHERE GroupName LIKE 'Sales and Marketing' OR GroupName LIKE 'Research and Development' 
+ORDER BY GroupName
+
+
+Select *					
+from Funckije.Odjel
+
+-- ovo je samo da prvi put importujemo da ide zbog identity oni id ali kad onda izbrisemo i ponovo importujemo onda ce krenut od 6 sljedeci put kad importujemo
+
+-- 5--
+
+CREATE TABLE Funckije.AgroOdjela
+(
+NazivSektora NVARCHAR(50) NOT NULL,
+UkupnoSektor int
+)
+
+-- ////////////////////////////////////////////// 6
+
+
+INSERT INTO Funckije.AgroOdjela
+SELECT GroupName,COUNT(GroupName)
+FROM AdventureWorks2014.HumanResources.Department
+GROUP BY GroupName
+
+
+--7--
+
+USE AdventureWorks2014
+GO
+
+
+SELECT YEAR(BirthDate) AS godinaRodjenja, YEAR(HireDate) AS GodinaZaposlenja, COUNT(YEAR(BirthDate)) AS UkupnoGodina,COUNT(YEAR(HireDate)) AS UkupnoZaposlenja
+FROM AdventureWorks2014.HumanResources.Employee
+GROUP BY YEAR(BirthDate)
+
