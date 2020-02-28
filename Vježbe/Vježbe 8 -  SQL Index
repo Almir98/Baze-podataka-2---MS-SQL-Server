@@ -1,0 +1,54 @@
+CREATE DATABASE test
+GO
+
+USE test
+GO
+
+--1
+
+CREATE TABLE Komisija
+(
+Ime  NVARCHAR(30)NOT NULL,
+Prezime  NVARCHAR(30)NULL,
+Titula  NVARCHAR(15)NULL,
+Telefon  NVARCHAR(20)NULL,
+Email  NVARCHAR(50)NULL,
+)
+
+
+--2 insertovanje u tabelu komisija iz baze adventure SEME person
+
+INSERT INTO Komisija
+SELECT TOP 10000 P.FirstName,P.LastName,ISNULL(P.Title,'NEPOZNAT'),LEFT(PP.PhoneNumber,7),EA.EmailAddress
+FROM AdventureWorks2014.Person.Person AS P INNER JOIN AdventureWorks2014.Person.PersonPhone AS PP
+	ON P.BusinessEntityID=PP.BusinessEntityID 
+INNER JOIN AdventureWorks2014.Person.EmailAddress AS EA 
+	ON P.BusinessEntityID=EA.BusinessEntityID
+
+
+--3
+
+CREATE NONCLUSTERED INDEX IX_Telefon ON Komisija
+(
+Telefon ASC
+)
+GO
+
+SELECT * FROM Komisija
+
+--4
+
+CREATE NONCLUSTERED INDEX IX_Ime_Prezime ON Komisija
+(
+Ime ASC,
+Prezime ASC
+)
+GO
+--5 
+
+CREATE UNIQUE NONCLUSTERED INDEX IX_Email ON Komisija
+(
+Email ASC
+)
+GO
+
