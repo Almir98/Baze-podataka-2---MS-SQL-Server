@@ -1,2 +1,3 @@
 # Baze-podataka-2---MS-SQL-Server
-SQL Server Management Studio
+
+CRUD operations joins, SQL index, views, procedures, backup database 
