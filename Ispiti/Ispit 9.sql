@@ -4,29 +4,6 @@ go
 use int2017
 go
 
-/*
-2.	U svojoj bazi podataka kreirati tabele sa sljedecom strukturom:
-a)	Proizvodi
-i.	ProizvodID, cjelobrojna vrijednost i primarni kljuc
-ii.	Sifra, polje za unos 25 UNICODE karaktera (jedinstvena vrijednost i obavezan unos)
-iii.	Naziv, polje za unos 50 UNICODE karaktera (obavezan unos)
-iv.	Kategorija, polje za unos 50 UNICODE karaktera (obavezan unos)
-v.	Cijena, polje za unos decimalnog broja (obavezan unos)
-b)	Narudzbe
-i.	NarudzbaID, cjelobrojna vrijednost i primarni kljuc,
-ii.	BrojNarudzbe, polje za unos 25 UNICODE karaktera (jedinstvena vrijednost i obavezan unos)
-iii.	Datum, polje za unos datuma (obavezan unos),
-iv.	Ukupno, polje za unos decimalnog broja (obavezan unos)
-c)	StavkeNarudzbe
-i.	ProizvodID, cjelobrojna vrijednost i dio primarnog kljuca,
-ii.	NarudzbaID, cjelobrojna vrijednost i dio primarnog kljuca,
-iii.	Kolicina, cjelobrojna vrijednost (obavezan unos)
-iv.	Cijena, polje za unos decimalnog broja (obavezan unos)
-v.	Popust, polje za unos decimalnog broja (obavezan unos)
-vi.	Iznos, polje za unos decimalnog broja (obavezan unos)
-*/
-
-
 CREATE TABLE Proizvodi
 (
 ProizvodID INT NOT NULL CONSTRAINT PK_ProizvodID PRIMARY KEY(ProizvodID) IDENTITY(1,1),
